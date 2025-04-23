@@ -1,0 +1,13 @@
+# Python virtual env
+.venv/
+
+# Byte-compiled cache
+__pycache__/
+*.py[cod]
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS / editor files
+.DS_Store
+Thumbs.db
