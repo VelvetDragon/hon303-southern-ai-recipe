@@ -1,37 +1,37 @@
 # src/model_training/prepare_data.py
+
 import json, random, pathlib
 
-INPUT     = pathlib.Path("data/processed/recipes_clean.jsonl")
-TRAIN_OUT = pathlib.Path("data/processed/finetune/train.jsonl")
-VAL_OUT   = pathlib.Path("data/processed/finetune/val.jsonl")
-VAL_FRAC  = 0.1  # 10% for validation
+# 1) Paths
+INPUT      = pathlib.Path("data/processed/recipes_clean.jsonl")
+TRAIN_OUT  = pathlib.Path("data/processed/finetune/train.jsonl")
+VAL_OUT    = pathlib.Path("data/processed/finetune/val.jsonl")
+VAL_FRAC   = 0.1  # 10% for validation
 
-# Load and shuffle
-records = [json.loads(line) for line in INPUT.open(encoding="utf-8")]
+# 2) Load & shuffle
+records = [
+    json.loads(line)
+    for line in INPUT.open(encoding="utf-8")
+    if line.strip()
+]
+random.seed(42)
 random.shuffle(records)
 
-# Split
-n_val       = int(len(records) * VAL_FRAC)
-val_records = records[:n_val]
+# 3) Split
+n_val        = int(len(records) * VAL_FRAC)
+val_records  = records[:n_val]
 train_records = records[n_val:]
 
-def format_text(r: dict) -> str:
-    parts = []
-    parts.append(f"### {r['title']}")
-    parts.append("Ingredients:")
-    parts += r.get("ingredients", []) if "ingredients" in r else []
-    parts.append("Steps:")
-    parts += r.get("steps", []) if "steps" in r else r["body"].splitlines()
-    return "\n".join(parts)
-
-# Ensure output dir exists
+# 4) Ensure output dir exists
 TRAIN_OUT.parent.mkdir(parents=True, exist_ok=True)
 
-# Write JSONL with a single “text” field
+# 5) Write out the JSONL splits (each rec already has only a "text" key)
 for path, subset in [(TRAIN_OUT, train_records), (VAL_OUT, val_records)]:
     with path.open("w", encoding="utf-8") as fout:
         for rec in subset:
-            text = format_text(rec)
-            fout.write(json.dumps({"text": text}, ensure_ascii=False) + "\n")
+            fout.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
-print(f"Saved {len(train_records)} training and {len(val_records)} validation examples")
+# 6) Summary
+print(f"Loaded     {len(records)} recipes")
+print(f"Training   {len(train_records)} → {TRAIN_OUT}")
+print(f"Validation {len(val_records)} → {VAL_OUT}")

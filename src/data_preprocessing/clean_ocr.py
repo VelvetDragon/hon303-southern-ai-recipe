@@ -157,11 +157,26 @@ def normalize_ingredient(ing: str) -> str:
 def main():
     count = 0
     with OUT_PATH.open("w", encoding="utf-8") as fout:
-        for txt in RAW_DIR.glob("*.txt"):
-            for rec in extract_recipes(txt):
-                fout.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        for txt_path in RAW_DIR.glob("*.txt"):
+            raw = normalize(txt_path.read_text(encoding="utf-8", errors="ignore"))
+            # split into title+buf (you already have extract_recipes)
+            recipes = extract_recipes(txt_path)
+            for rec in recipes:
+                # rec is {"title": ..., "ingredients": [...], "steps": [...]}
+                # Build a single text field with markers:
+                text = "<|startofrecipe|>\n"
+                text += f"TITLE: {rec['title']}\n"
+                text += "<|ingredients|>\n"
+                for i in rec["ingredients"]:
+                    text += f"- {i}\n"
+                text += "<|steps|>\n"
+                for s in rec["steps"]:
+                    text += f"{s}\n"
+                text += "<|endofrecipe|>\n"
+                fout.write(json.dumps({"text": text}, ensure_ascii=False) + "\n")
                 count += 1
-    print(f"✓ Wrote {count} structured recipes to {OUT_PATH}")
+    print(f"✓ Wrote {count} recipes with markers to {OUT_PATH}")
+
 
 if __name__ == "__main__":
     main()
