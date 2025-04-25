@@ -1,0 +1,26 @@
+<|startofrecipe|>
+TITLE: Fried Chicken
+<|ingredients|>
+- 2 lbs. chicken pieces
+- 1 cup buttermilk
+- 1 tsp salt
+- 1 tsp paprika
+- 1/2 tsp black pepper
+<|steps|>
+1. Marinate chicken in buttermilk and seasonings for at least 4 hours.
+2. Dredge in seasoned flour and deep-fry at 350°F until golden brown.
+3. Drain on paper towels and serve hot.
+<|endofrecipe|>
+
+<|startofrecipe|>
+TITLE: Catfish Po’Boy
+<|ingredients|>
+- 4 catfish fillets
+- 1 cup cornmeal
+- 1 tsp cajun seasoning
+- French rolls
+<|steps|>
+1. Season cornmeal with cajun spice and dredge fillets.
+2. Fry fish at 375°F until crispy.
+3. Assemble in rolls with lettuce, tomato, and remoulade sauce.
+<|endofrecipe|>

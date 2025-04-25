@@ -4,7 +4,7 @@ from pdfminer.high_level import extract_text
 def convert(pdf_path: pathlib.Path, outdir: pathlib.Path):
     outdir.mkdir(parents=True, exist_ok=True)
     txt_path = outdir / (pdf_path.stem + ".txt")
-    print(f"Converting {pdf_path.name} → {txt_path.relative_to(pathlib.Path().resolve())}")
+    print(f"Converting {pdf_path.name} → {txt_path}")
     txt_path.write_text(extract_text(pdf_path), encoding="utf-8")
     print("Done!")
 
