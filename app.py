@@ -1,5 +1,6 @@
 # app.py
 
+
 import os
 import json
 import re
@@ -9,6 +10,7 @@ from requests.exceptions import HTTPError
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from src.search import search_local
+from flask_cors import CORS
 
 # 1. Load environment variables from .env
 load_dotenv()
@@ -115,6 +117,7 @@ def call_hf_model(query: str) -> dict:
 # --- Flask application ---
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/api/recipe")
 def get_recipe():
