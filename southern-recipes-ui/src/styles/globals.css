@@ -1,0 +1,17 @@
+/* styles/globals.css */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: Montserrat, sans-serif;
+  background-color: #F2E7D5; /* cream */
+  color: #333;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+  color: #2F4F4F; /* deep teal */
+}
+
+a {
+  text-decoration: none;
+}
